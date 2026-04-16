@@ -1,1 +1,0 @@
-int run_referee(std::string game_type);
