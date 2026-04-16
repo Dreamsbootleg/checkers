@@ -132,12 +132,11 @@ ErrorNum run_player(char *path, char **argv, pid_t *pid)
     return NO_ERR;
 }
 
-/*void kill_player(pid_t pid)
+void kill_player(pid_t pid)
 {
     kill(pid, SIGKILL);
     return;
 }
-*/
 
 /* ────────────────────────────── *
  * MESSAGE TRANSMISSION FUNCTIONS *
