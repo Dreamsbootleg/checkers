@@ -1,68 +1,46 @@
+#ifndef BOARD_H
+#define BOARD_H
+
+#include "defines.h"
 #include <vector>
-#include <stdexcept>
-#include <string>
 
-using namespace std;
-
-class board
+class Board
 {
 private:
     int board_size;
     int peice_count;
-    string game_type;
+    int grid_size;
+    std::string game_type;
     std::vector<char> grid;
 
 public:
-    board(std::string game_type)
-    {
-        if (game_type == "american_checkers")
-            game_type = "american_checkers";
-        if (game_type == "international_checkers")
-            game_type = "international_checkers";
-        initalize_board();
-    }
-    ~board()
-    {
-        grid.clear();
-        grid.shrink_to_fit();
-    }
-    int get_board_size() { return grid.size(); }
+    Board();
+    Board(std::string game_type);
+    Board(int board_size);
+    ~Board();
 
-    void clear_board()
-    {
-        grid.clear();
-    }
+    int set_board_size(int size);
+    int set_peice_count(int count);
+    int set_grid_size(int count);
+    int set_game_type(std::string);
 
-    void initalize_board()
-    {
-        int rows_per_player = -1;
-        int squares_per_row;
-        if (game_type == "american_chess")
-            rows_per_player = 3;
-        if (game_type == "international_chess")
-            rows_per_player = 4;
-        for (int i = 0; i < board_size * rows_per_player; i++)
-        {
-            grid[i] = 'b';
-        }
-        for (int i = (board_size * board_size) - (rows_per_player * board_size); i < board_size * board_size; i++)
-        {
-            grid[i] = 'w';
-        }
-    }
+    int get_board_size();
+    int get_peice_count();
+    int get_grid_size();
+    std::string get_game_type();
 
-    void print_board()
-    {
-        int index = 0;
-        for (int row = 0; row < board_size; row++)
-        {
+    void clear_board();
+    void print_board();
+    int resize_board();
+    std::vector<char> &get_grid();
+    void initalize_board();
 
-            for (int col = 0; col < board_size; col++)
-            {
-                if (grid[index] == '0')
-                {
-                }
-            }
-        }
-    }
+    int RCto1D(int row, int col);
+
+    bool validate_move(Move move);
+    bool validate_move(int fromRow, int fromCol, int toRow, int toCol);
+    int move(int fromRow, int fromCol, int toRow, int toCol);
+    int move(Move move);
 };
+
+#endif
