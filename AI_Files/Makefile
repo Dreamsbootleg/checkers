@@ -6,6 +6,9 @@ PROTECT_DIR = protected/
 PLAYER_SRC = $(PROTECT_DIR)Player.cpp
 PLAYER_OBJ = $(PROTECT_DIR)Player.o
 
+SRCS = $(wildcard *.cpp)
+PROGS = $(patsubst %.cpp, %, $(SRCS))
+
 all: $(PLAYER_OBJ) $(PROGS)
 
 $(PLAYER_OBJ): $(PLAYER_SRC)
