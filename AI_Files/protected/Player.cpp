@@ -1,5 +1,48 @@
 #include "Player.h"
+int Player::play_match(char *socket_path, const char *ai_name, const char *author_names)
+{
 
+    if (connect_to_socket(socket_path) == -1)
+        return -1;
+
+    // send hello message, message gets discarded
+    snprintf(msg, sizeof(msg), "%s", "hello");
+    if (send_msg() == -1)
+        return -1;
+    // recv uci message
+    if (recv_msg() == -1)
+        return -1;
+    if (!strcmp(msg, "uci"))
+        return -1;
+
+    // recv setoptions
+    while (recv_msg() == -1)
+    {
+        if (strcmp(msg, "isready"))
+            break;
+        if (recv_msg() == -1)
+            return -1;
+        string msg = msg;
+        vector<string> tokens = seperate_string(msg);
+        if (tokens[0] != "setoption")
+            return -1;
+        this->setoptions.insert({tokens[2], tokens[4]});
+    }
+
+    PlayerNum player;
+    int board_size;
+    auto player_num_option = setoptions.find("PlayerNum");
+    if (player_num_option == setoptions.end())
+        return -1;
+    player = (PlayerNum)stoi(player_num_option->second);
+
+    auto board_size_option = setoptions.find("board_size");
+    if (board_size_option == setoptions.end())
+        return -1;
+    board_size = stoi(board_size_option->second);
+
+    return 0;
+}
 int Player::connect_to_socket(char *socket_path)
 {
     sockaddr_un server_sock;
@@ -53,4 +96,18 @@ int Player::recv_msg()
         printf("Player Error: %s (line: %d)\n", strerror(errno), __LINE__);
     }
     return 0;
+}
+
+std::vector<std::string> Player::seperate_string(const std::string &str)
+{
+    std::istringstream iss(str);
+    std::vector<std::string> words;
+    std::string word;
+
+    while (iss >> word)
+    {
+        words.push_back(word);
+    }
+
+    return words;
 }
