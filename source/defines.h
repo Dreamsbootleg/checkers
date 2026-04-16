@@ -11,6 +11,9 @@
 
 #define MAX_MSG_SIZE 32
 #define MAX_NAME_SIZE 32
+#define LOGS_DIR "/logs/"
+
+using namespace std;
 
 /**
  * @brief Error Number Types for returning from functions.
@@ -46,6 +49,24 @@ enum GameResult : char
     WIN = 'W',
     LOSS = 'L',
     TIE = 'T',
+};
+
+enum DisplayType
+{
+    /// @brief Don't display the Match or Contest.
+    NONE,
+    /// @brief Display every. single. game.
+    ALL,
+    /// @brief Display the last game. Default for Match, the only way to do it for Contest.
+    LAST,
+    /// @brief Display each different type if available (WIN, LOSS, TIE, or an ERROR).
+    EACH,
+    /// @brief Display every Nth game in order.
+    INCREMENT,
+    /// @brief Contest Display type. Display each match as it's running the contest.
+    DURING,
+    /// @brief Contest Display type. Display each match after the entire contest has been processed.
+    AFTER,
 };
 
 struct ContestPlayer
