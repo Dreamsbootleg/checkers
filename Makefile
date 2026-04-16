@@ -2,10 +2,14 @@ CC = g++
 
 CFLAGS = -g -Wall -Wextra -o3
 
-obj_files = source/questions.o \
-			source/referee.o \
-			source/board.o \
-			source/server.o
+obj_files = source/game_logic.o	\
+			source/message.o 	\
+			source/server.o 	\
+			source/board.o 		\
+			source/display.o 	\
+			source/conio.o 		\
+			source/logger.o 	\
+			source/questions.o
 
 default: all
 
