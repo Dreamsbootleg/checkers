@@ -10,10 +10,13 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <cerrno>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <unistd.h>
+#include <map>
+#include <vector>
 
 #include "../../source/defines.h"
 
@@ -55,7 +58,6 @@ public:
     /// @param player player number for that match.
 
 protected:
-protected:
     /// @brief Connects to the server socket created by the server.
     /// @param socket_path Path to the socket.
     /// @return 0 on success, -1 on error.
@@ -68,6 +70,14 @@ protected:
     /// @brief Recieves a message from the message buffer.
     /// @return 0 on success, -1 on error.
     int recv_msg();
+
+    /// @brief Stores setoptions
+    map<string, string> setoptions;
+
+    /// @brief Seperates a string into a vector of words
+    /// @param str Address to string
+    /// @return Returns a vector of words
+    std::vector<std::string> seperate_string(const std::string &str);
 };
 
 #endif
