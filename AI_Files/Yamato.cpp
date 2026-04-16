@@ -38,3 +38,7 @@ int main(int argc, char *argv[])
     Yamato my_player = Yamato();
     return my_player.play_match(socket_path, AI_NAME, AUTHOR_NAMES);
 }
+
+Yamato::Yamato() : Player() { return; }
+
+Yamato::~Yamato() { return; }
