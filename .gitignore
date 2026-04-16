@@ -1,3 +1,5 @@
 *.o
 ._*
 *.txt
+.DS_store
+controller.dSYM/
