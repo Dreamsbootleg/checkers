@@ -51,6 +51,11 @@ ErrorNum parse_ai_name_msg(char *msg, char *ai_name);
  * @param author_names authors buffer.
  * @return NO_ERR on valid, BAD_HELLO_MSG on invalid.
  */
-
 ErrorNum parse_author_names_msg(char *msg, char *author_names);
+
+/// @brief Seperates a string into a vector of words
+/// @param str Address to string
+/// @return Returns a vector of words
+vector<string> separate_string(const string &str);
+
 #endif
