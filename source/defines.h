@@ -6,10 +6,14 @@
  */
 
 #include <string>
+#include <map>
+#include <vector>
+#include <sstream>
+
 #ifndef DEFINES_H
 #define DEFINES_H
 
-#define MAX_MSG_SIZE 32
+#define MAX_MSG_SIZE 64
 #define MAX_NAME_SIZE 32
 #define LOGS_DIR "/logs/"
 
