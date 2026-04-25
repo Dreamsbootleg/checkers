@@ -1,6 +1,6 @@
 CC = g++
 
-CFLAGS = -g -Wall -Wextra -o3
+CFLAGS = -g -Wall -Wextra -O3
 
 obj_files = source/game_logic.o	\
 			source/message.o 	\
@@ -13,7 +13,7 @@ obj_files = source/game_logic.o	\
 
 default: all
 
-all: controller player
+all: controller player test
 
 controller: $(obj_files)
 	@echo "\tbuilding $@"
@@ -32,6 +32,13 @@ player:
 
 clean_player:
 	@cd AI_Files; make clean; cd ..;
-	
-clean: clean_controller clean_player
+
+test: $(obj_files)
+	@echo "\n### Tests ###\n"
+	@cd tests; make all; cd ..;
+
+clean_test:
+	@cd tests; make clean; cd ..;
+
+clean: clean_controller clean_player clean_test
 	rm -f controller
