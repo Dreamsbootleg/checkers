@@ -15,8 +15,6 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <unistd.h>
-#include <map>
-#include <vector>
 
 #include "../../source/defines.h"
 
@@ -77,7 +75,7 @@ protected:
     /// @brief Seperates a string into a vector of words
     /// @param str Address to string
     /// @return Returns a vector of words
-    std::vector<std::string> seperate_string(const std::string &str);
+    std::vector<std::string> separate_string(const std::string &str);
 };
 
 #endif

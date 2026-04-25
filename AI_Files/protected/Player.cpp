@@ -1,7 +1,6 @@
 #include "Player.h"
 int Player::play_match(char *socket_path, const char *ai_name, const char *author_names)
 {
-
     if (connect_to_socket(socket_path) == -1)
         return -1;
 
@@ -9,23 +8,33 @@ int Player::play_match(char *socket_path, const char *ai_name, const char *autho
     snprintf(msg, sizeof(msg), "%s", "hello");
     if (send_msg() == -1)
         return -1;
+
     // recv uci message
     if (recv_msg() == -1)
         return -1;
-    if (!strcmp(msg, "uci"))
+    if (strcmp(msg, "uci") != 0)
+        return -1;
+
+    // send ai_name
+    snprintf(msg, sizeof(msg), "id name %s", ai_name);
+    if (send_msg() == -1)
+        return -1;
+    // send author_names
+    snprintf(msg, sizeof(msg), "id author %s", author_names);
+    if (send_msg() == -1)
         return -1;
 
     // recv setoptions
-    while (recv_msg() == -1)
+    while (recv_msg() != -1)
     {
-        if (strcmp(msg, "isready"))
+        if (strcmp(msg, "isready") == 0)
             break;
         if (recv_msg() == -1)
             return -1;
-        string msg = msg;
-        vector<string> tokens = seperate_string(msg);
+        string msg_str = msg;
+        vector<string> tokens = separate_string(msg);
         if (tokens[0] != "setoption")
-            return -1;
+            continue;
         this->setoptions.insert({tokens[2], tokens[4]});
     }
 
@@ -98,11 +107,11 @@ int Player::recv_msg()
     return 0;
 }
 
-std::vector<std::string> Player::seperate_string(const std::string &str)
+vector<string> Player::separate_string(const string &str)
 {
-    std::istringstream iss(str);
-    std::vector<std::string> words;
-    std::string word;
+    istringstream iss(str);
+    vector<string> words;
+    string word;
 
     while (iss >> word)
     {
