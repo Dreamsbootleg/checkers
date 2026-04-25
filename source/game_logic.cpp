@@ -143,6 +143,13 @@ Match run_match(int board_size, int num_games, Connection connect, string socket
     }
     parse_ai_name_msg(msg1, match.player1.ai_name);
     parse_ai_name_msg(msg2, match.player2.ai_name);
+    if (status)
+    {
+        kill_player(connect.pid1);
+        kill_player(connect.pid2);
+        close_player_sockets(&connect);
+        return match;
+    }
 
     // recv author names
     p1_status = recv_message(connect.player1_desc, msg1);
@@ -157,6 +164,44 @@ Match run_match(int board_size, int num_games, Connection connect, string socket
     }
     parse_author_names_msg(msg1, match.player1.author_name);
     parse_author_names_msg(msg2, match.player2.author_name);
+    if (status)
+    {
+        kill_player(connect.pid1);
+        kill_player(connect.pid2);
+        close_player_sockets(&connect);
+        return match;
+    }
+    /* End UCI*/
+    cout << match.player1.author_name << match.player1.ai_name;
+    /*Skip Option Name*/
+
+    /*Begin Setoption*/
+    snprintf(msg, sizeof(msg), "setoption name board_size value %d", board_size);
+    p1_status = send_message(connect.player1_desc, msg);
+    p2_status = send_message(connect.player2_desc, msg);
+    status = check_return(&match, p1_status, p2_status);
+    if (status)
+    {
+        kill_player(connect.pid1);
+        kill_player(connect.pid2);
+        close_player_sockets(&connect);
+        return match;
+    }
+    snprintf(msg1, sizeof(msg), "setoption name PlayerNum value %d", 1);
+    snprintf(msg2, sizeof(msg), "setoption name PlayerNum value %d", 2);
+    p1_status = send_message(connect.player1_desc, msg1);
+    p2_status = send_message(connect.player2_desc, msg2);
+    status = check_return(&match, p1_status, p2_status);
+    if (status)
+    {
+        kill_player(connect.pid1);
+        kill_player(connect.pid2);
+        close_player_sockets(&connect);
+        return match;
+    }
+
+    /*      BOARD STUFF         */
+    Board board;
 
     end = time(NULL);
     match.elapsed_time = end - start;
