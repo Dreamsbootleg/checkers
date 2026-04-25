@@ -179,7 +179,6 @@ void Board::initalize_board()
             }
             index++;
         }
-        printf("\n");
     }
 }
 
