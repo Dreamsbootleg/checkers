@@ -21,6 +21,7 @@
  * Starts up the entire match. Do NOT change anything here unless you really
  *understand what you are doing.
  *================================================================================*/
+
 int main(int argc, char *argv[])
 {
     // player must have the socket path as an argument.
